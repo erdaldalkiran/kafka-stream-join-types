@@ -1,0 +1,11 @@
+{
+  "namespace": "com.erdaldalkiran.producer.messages",
+  "type": "record",
+  "name": "AdView",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    }
+  ]
+}
