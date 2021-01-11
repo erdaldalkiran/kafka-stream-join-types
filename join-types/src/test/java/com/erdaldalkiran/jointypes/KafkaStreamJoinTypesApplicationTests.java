@@ -1,4 +1,4 @@
-package com.erdaldalkiran.kafkastreamjointypes;
+package com.erdaldalkiran.jointypes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

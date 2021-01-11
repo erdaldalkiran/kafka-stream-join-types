@@ -36,7 +36,7 @@ public class AdViewAndClickProducer implements IProducer {
         Thread.sleep(1000);
 
         //2
-        var click1 = new AdClick(1L, 3L);
+        var click1 = new AdClick(1L, 1L);
         adClickKafkaTemplate.send(clickTopicName, click1.getId(), click1).get();
         System.out.println("click1 was sent");
         Thread.sleep(1000);
@@ -58,7 +58,7 @@ public class AdViewAndClickProducer implements IProducer {
         Thread.sleep(1000);
 
         // 6
-        var click4 = new AdClick(4L, 3L);
+        var click4 = new AdClick(4L, 4L);
 
         adClickKafkaTemplate.send(clickTopicName, click4.getId(), click4);
         System.out.println("click4 was sent");
@@ -74,7 +74,7 @@ public class AdViewAndClickProducer implements IProducer {
         Thread.sleep(1000);
 
         // 9
-        var click2 = new AdClick(2L, 3L);
+        var click2 = new AdClick(2L, 2L);
         adClickKafkaTemplate.send(clickTopicName, click2.getId(), click2);
         System.out.println("click2 was sent");
 

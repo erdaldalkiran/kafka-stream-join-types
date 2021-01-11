@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: default
+
+kafka:
+  brokers: localhost:19092,localhost:29092,localhost:39092
+  scheme-registry-url: http://localhost:8081
+  topic:
+    view: view
+    click: click
+logging:
+  level:
+    root: OFF

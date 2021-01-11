@@ -1,0 +1,15 @@
+{
+  "namespace": "com.erdaldalkiran.producer.messages",
+  "type": "record",
+  "name": "AdClick",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "userId",
+      "type": "long"
+    }
+  ]
+}
