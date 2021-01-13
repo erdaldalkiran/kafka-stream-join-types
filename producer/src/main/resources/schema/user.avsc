@@ -1,0 +1,15 @@
+{
+  "namespace": "com.erdaldalkiran.producer.messages",
+  "type": "record",
+  "name": "User",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    }
+  ]
+}

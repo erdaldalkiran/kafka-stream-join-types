@@ -20,10 +20,10 @@ import java.time.Duration;
 import java.util.Properties;
 import java.util.UUID;
 
-//TODO: onden baslattigimda produce edilenleri okumuyor
+//TODO: biraz bekliyor ve join'leri yapiyor neden?
 @Service
 @RequiredArgsConstructor
-public class StreamStreamJoin implements IStreamer {
+public class StreamStreamLeftJoin implements IStreamer {
     @Value("${kafka.topic.view}")
     private String viewTopicName;
 
@@ -46,10 +46,10 @@ public class StreamStreamJoin implements IStreamer {
         KStream<Long, AdClick> adClickKStream = builder.stream(clickTopicName);
 
         var windowDuration = env.getProperty("wd", Integer.class, 3);
-        KStream<Long, AdViewClick> adViewClickKStream = adViewKStream.join(
+        KStream<Long, AdViewClick> adViewClickKStream = adViewKStream.leftJoin(
             adClickKStream,
             (adView, adClick) -> AdViewClick.builder().id(adView.getId())
-                .userId(adClick.getUserId())
+                .userId(adClick == null ? null : adClick.getUserId())
                 .build(),
             JoinWindows.of(Duration.ofSeconds(windowDuration))
         );

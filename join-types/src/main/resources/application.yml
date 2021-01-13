@@ -8,6 +8,10 @@ kafka:
   topic:
     view: view
     click: click
+    delivery: delivery
+    xdock: xdock
+    xdock2: xdock2
+    user: user
 logging:
   level:
     root: OFF

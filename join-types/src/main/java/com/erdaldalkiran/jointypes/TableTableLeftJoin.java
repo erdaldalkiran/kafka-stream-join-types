@@ -1,7 +1,7 @@
 package com.erdaldalkiran.jointypes;
 
-import com.erdaldalkiran.producer.messages.AdClick;
-import com.erdaldalkiran.producer.messages.AdView;
+import com.erdaldalkiran.producer.messages.User;
+import com.erdaldalkiran.producer.messages.XDock;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import lombok.RequiredArgsConstructor;
@@ -9,26 +9,23 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.JoinWindows;
-import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.Properties;
 import java.util.UUID;
 
-//TODO: onden baslattigimda produce edilenleri okumuyor
 @Service
 @RequiredArgsConstructor
-public class StreamStreamJoin implements IStreamer {
-    @Value("${kafka.topic.view}")
-    private String viewTopicName;
+public class TableTableLeftJoin implements IStreamer {
+    @Value("${kafka.topic.xdock2}")
+    private String xDockTopicName;
 
-    @Value("${kafka.topic.click}")
-    private String clickTopicName;
+    @Value("${kafka.topic.user}")
+    private String userTopicName;
 
     @Value("${kafka.brokers}")
     private String brokers;
@@ -42,22 +39,24 @@ public class StreamStreamJoin implements IStreamer {
     public void run() {
 
         var builder = new StreamsBuilder();
-        KStream<Long, AdView> adViewKStream = builder.stream(viewTopicName);
-        KStream<Long, AdClick> adClickKStream = builder.stream(clickTopicName);
+        KTable<Long, XDock> xDockTable = builder.table(xDockTopicName);
+        KTable<Long, User> userTable = builder.table(userTopicName);
 
-        var windowDuration = env.getProperty("wd", Integer.class, 3);
-        KStream<Long, AdViewClick> adViewClickKStream = adViewKStream.join(
-            adClickKStream,
-            (adView, adClick) -> AdViewClick.builder().id(adView.getId())
-                .userId(adClick.getUserId())
-                .build(),
-            JoinWindows.of(Duration.ofSeconds(windowDuration))
-        );
-        adViewClickKStream.print(Printed.toSysOut());
+        KTable<Long, XdockUser> xdockUserTable = xDockTable
+            .leftJoin(
+                userTable,
+                xDock -> xDock.getUserId(),
+                (xDock, user) -> XdockUser.builder().id(xDock.getId())
+                    .xDockName(xDock.getName().toString())
+                    .userId(user == null ? null: user.getId())
+                    .userName(user == null ? null:user.getName().toString())
+                    .build()
+            );
+        xdockUserTable.toStream().print(Printed.toSysOut());
 
         var props = new Properties();
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, UUID.randomUUID().toString().substring(0,6));
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, UUID.randomUUID().toString().substring(0, 6));
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.LongSerde.class);
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
         props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);

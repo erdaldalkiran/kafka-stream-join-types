@@ -1,0 +1,15 @@
+{
+  "namespace": "com.erdaldalkiran.producer.messages",
+  "type": "record",
+  "name": "Delivery",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "xDockId",
+      "type": "long"
+    }
+  ]
+}

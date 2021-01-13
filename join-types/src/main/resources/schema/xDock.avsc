@@ -1,0 +1,19 @@
+{
+  "namespace": "com.erdaldalkiran.producer.messages",
+  "type": "record",
+  "name": "XDock",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "long"
+    }
+  ]
+}
