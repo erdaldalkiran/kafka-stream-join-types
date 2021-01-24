@@ -3,6 +3,7 @@ package com.erdaldalkiran.producer;
 public enum Type {
     Ad(AdViewAndClickProducer.class),
     Del(DeliveryAndXDockProducer.class),
+    Pro(XdockDeliveryCounterProducer.class),
     Xd(XDockAndUserProducer.class);
 
     Type(Class producer) {

@@ -6,7 +6,8 @@ public enum Type {
     STJ(StreamTableJoin.class),
     STLJ(StreamTableLeftJoin.class),
     TTJ(TableTableJoin.class),
-    TTLJ(TableTableLeftJoin.class);
+    TTLJ(TableTableLeftJoin.class),
+    Pro(ProblemSolution.class);
 
     Type(Class streamer) {
         this.streamer = streamer;
